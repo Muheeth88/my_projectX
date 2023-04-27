@@ -1,6 +1,5 @@
 package com.example.my_projectX.entities;
 
-
 public class TaskEntity {
 	public int id;
 	public String title;

@@ -11,6 +11,10 @@ public class TaskService {
 
     public ArrayList<TaskEntity> tasks = new ArrayList<>();
 
+    public ArrayList<TaskEntity> getTasks() {
+        return tasks;
+    }
+
     public int taskId = 1;
     
     public TaskEntity addTask( String title, String description, String deadline) {
@@ -23,10 +27,6 @@ public class TaskService {
         tasks.add(task);
     	taskId++;
         return task;
-    }
-
-    public ArrayList<TaskEntity> getTasks() {
-        return tasks;
     }
 
     public TaskEntity getTaskById(int id) {
