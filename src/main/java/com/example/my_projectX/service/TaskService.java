@@ -38,5 +38,21 @@ public class TaskService {
         return null;
     }
 
+    public TaskEntity updateTask(int id, String description, String deadline, Boolean compleated) {
+
+        TaskEntity task = getTaskById(id);
+        
+        if(task == null) {
+            return null;
+        }
+
+        task.description = description;
+        task.deadline = deadline;
+        task.compleated = compleated;
+
+        return task;
+
+    }
+
  
 }
