@@ -16,6 +16,7 @@ import com.example.my_projectX.dto.ErrorResponseDto;
 import com.example.my_projectX.dto.createTaskDto;
 import com.example.my_projectX.dto.updateTaskDto;
 import com.example.my_projectX.entities.TaskEntity;
+import com.example.my_projectX.service.NoteService;
 import com.example.my_projectX.service.TaskService;
 
 @RestController
@@ -23,15 +24,18 @@ import com.example.my_projectX.service.TaskService;
 public class TasksController {
 
     private final TaskService taskService;
+    private final NoteService noteService;
 
-    public TasksController(TaskService taskService) {
+    public TasksController(TaskService taskService, NoteService noteService) {
         this.taskService = taskService;
+        this.noteService = noteService;
     }
 
     // get all tasks
     @GetMapping("")
     public ResponseEntity<List<TaskEntity>> getTasks() {
         var tasks = taskService.getTasks();
+     
         return ResponseEntity.ok(tasks);
     }
 
@@ -39,9 +43,8 @@ public class TasksController {
     @GetMapping("/{id}")
     public ResponseEntity<TaskEntity> getTaskById(@PathVariable("id") Integer id) {
         var task = taskService.getTaskById(id);
-        if( task == null) {
-            return ResponseEntity.notFound().build();
-        }
+        var notes = noteService.getNotesForTask(id);
+        task.notes = notes;
         return ResponseEntity.ok(task);
     }
 
@@ -56,7 +59,7 @@ public class TasksController {
     @PatchMapping("/{id}")
     public ResponseEntity<TaskEntity> updateTask(@PathVariable("id") Integer id ,@RequestBody updateTaskDto body) {
         var task = taskService.updateTask(id, body.description, body.deadline, body.compleated);
-
+        
         return ResponseEntity.ok(task);
     }
 
